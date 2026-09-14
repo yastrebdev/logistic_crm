@@ -1,0 +1,9 @@
+alembic
+email-validator
+fastapi
+pydantic-settings
+pwdlib[argon2]
+python-jose[cryptography]
+sqlalchemy
+uvicorn[standard]
+openpyxl

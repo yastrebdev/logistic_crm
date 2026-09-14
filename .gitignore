@@ -1,0 +1,76 @@
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Python virtual environments
+venv/
+.venv/
+venv*/
+env/
+ENV/
+
+# Python tooling
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Python builds
+build/
+dist/
+*.egg-info/
+
+# SQLite databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Alembic temporary databases
+*migration_test*.db
+*test*.db
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Next.js
+.next/
+out/
+
+# Frontend builds and caches
+dist/
+coverage/
+*.tsbuildinfo
+
+# Local environment files
+backend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.production.local
+frontend/.env.test.local
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Operating systems
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*.log
