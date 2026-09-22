@@ -39,6 +39,10 @@ from app.models.internship_policy import (
     InternshipPolicy,
     MentorPaymentPolicy,
 )
+from app.models.data_import import (
+    ImportJob,
+    ImportJobRow,
+)
 
 
 __all__ = [
@@ -67,4 +71,6 @@ __all__ = [
     "MentorPaymentPolicy",
     "InternshipPolicy",
     "MentorPaymentPolicy",
+    "ImportJob",
+    "ImportJobRow",
 ]

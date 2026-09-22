@@ -13,7 +13,11 @@ from sqlalchemy import  Enum as SQLEnum
 
 from app.db.database import Base
 from app.enums.base import enum_values
-from app.enums.mentor_payment import PaymentStatus, NonPaymentReason
+from app.enums.mentor_payment import (
+    NonPaymentReason,
+    PaymentRegistrationMethod,
+    PaymentStatus,
+)
 
 
 class MentorPayment(Base):
@@ -56,9 +60,13 @@ class MentorPayment(Base):
     )
 
     registration_method: Mapped[
-        str | None
+        PaymentRegistrationMethod | None
         ] = mapped_column(
-        String(100),
+        SQLEnum(
+            PaymentRegistrationMethod,
+            values_callable=enum_values,
+            name="payment_registration_method",
+        ),
         nullable=True,
     )
 

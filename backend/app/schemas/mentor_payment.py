@@ -11,6 +11,7 @@ from pydantic import (
 from app.enums.mentor_payment import (
     NonPaymentReason,
     PaymentStatus,
+    PaymentRegistrationMethod,
 )
 
 
@@ -18,10 +19,9 @@ class MentorPaymentCreate(BaseModel):
     main_internship_id: int = Field(gt=0)
     internship_form_completed: bool
     payment_created_at: date | None = None
-    registration_method: str | None = Field(
-        default=None,
-        max_length=100,
-    )
+    registration_method: (
+        PaymentRegistrationMethod | None
+    ) = None
     amount: Decimal | None = Field(
         default=None,
         ge=0,
@@ -65,10 +65,9 @@ class MentorPaymentCreate(BaseModel):
 class MentorPaymentUpdate(BaseModel):
     internship_form_completed: bool | None = None
     payment_created_at: date | None = None
-    registration_method: str | None = Field(
-        default=None,
-        max_length=100,
-    )
+    registration_method: (
+        PaymentRegistrationMethod | None
+    ) = None
     amount: Decimal | None = Field(
         default=None,
         ge=0,
@@ -104,7 +103,9 @@ class MentorPaymentResponse(BaseModel):
     planned_amount: Decimal | None
     internship_form_completed: bool
     payment_created_at: date | None
-    registration_method: str | None
+    registration_method: (
+        PaymentRegistrationMethod | None
+    )
     amount: Decimal | None
     payment_status: PaymentStatus
     paid_at: date | None

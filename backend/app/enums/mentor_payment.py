@@ -9,13 +9,26 @@ class PaymentStatus(str, Enum):
 
 
 class NonPaymentReason(str, Enum):
-    INTERNSHIP_NOT_COMPLETED = "Internship not completed"
-    INSUFFICIENT_INTERNSHIP_DURATION = "Insufficient internship duration"
-    MENTOR_NOT_ELIGIBLE = "Mentor is not eligible for payment"
-    EMPLOYEE_LEFT_EARLY = "Employee left before completion"
-    MENTOR_LEFT_EARLY = "Mentor left before completion"
-    DUPLICATE_PAYMENT = "Duplicate payment"
-    PAYMENT_ALREADY_PROCESSED = "Payment already processed"
-    INCORRECT_DATA = "Incorrect data"
-    MANAGEMENT_DECISION = "Management decision"
-    OTHER = "Other"
+    TRAINEE_TERMINATED = (
+        "trainee_terminated"
+    )
+
+    MENTOR_TERMINATED = (
+        "mentor_terminated"
+    )
+
+    MISSING_SUPPORTING_DOCUMENTS = (
+        "missing_supporting_documents"
+    )
+
+    TWO_MENTORS = "two_mentors"
+
+    INCOMPLETE_INTERNSHIP = (
+        "incomplete_internship"
+    )
+
+
+class PaymentRegistrationMethod(str, Enum):
+    MENTORING = "mentoring"
+
+    OTHER_BONUS = "other_bonus"

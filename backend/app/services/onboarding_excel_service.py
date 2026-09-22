@@ -73,6 +73,7 @@ HEADERS = [
     "Срок 1 адаптации соблюдён",
     "Участники 1 адаптации",
     "Причина опоздания 1 адаптации",
+    "Зона 1",
     "Риск зоны 1",
     "Причина риска 1",
     "Комментарий МПО 1",
@@ -84,6 +85,7 @@ HEADERS = [
     "Срок 2 адаптации соблюдён",
     "Участники 2 адаптации",
     "Причина опоздания 2 адаптации",
+    "Зона 2",
     "Риск зоны 2",
     "Причина риска 2",
     "Комментарий МПО 2",
@@ -94,6 +96,7 @@ HEADERS = [
     "Срок 3 адаптации соблюдён",
     "Участники 3 адаптации",
     "Причина опоздания 3 адаптации",
+    "Зона 3",
     "Риск зоны 3",
     "Причина риска 3",
     "Комментарий МПО 3",
@@ -229,6 +232,9 @@ LABELS = {
     "retirement": "Выход на пенсию",
     "job_abandonment":
         "Неявка на работу",
+
+    "mentoring": "Наставничество",
+    "other_bonus": "Прочая премия",
 }
 
 
@@ -394,18 +400,7 @@ def _build_excel_row(
 
 def _stage_values(stage) -> list[Any]:
     if stage is None:
-        return [
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-        ]
+        return [None] * 11
 
     deadline_compliant = (
         stage.actual_date is not None
@@ -421,6 +416,7 @@ def _stage_values(stage) -> list[Any]:
         _yes_no(deadline_compliant),
         _label(stage.participants),
         _label(stage.delay_reason),
+        _label(stage.zone),
         _label(stage.risk_zone),
         _label(stage.risk_reason),
         stage.comment,
@@ -631,6 +627,12 @@ def _highlight_statuses(
         fgColor="D9EAD3",
     )
 
+    zone_headers = [
+        "Зона 1",
+        "Зона 2",
+        "Зона 3",
+    ]
+
     risk_headers = [
         "Риск зоны 1",
         "Риск зоны 2",
@@ -647,6 +649,19 @@ def _highlight_statuses(
         2,
         row_count + 2,
     ):
+        for header in zone_headers:
+            cell = worksheet.cell(
+                row=row_index,
+                column=header_indexes[header],
+            )
+
+            if cell.value == "Красный":
+                cell.fill = red_fill
+            elif cell.value == "Жёлтый":
+                cell.fill = yellow_fill
+            elif cell.value == "Зелёный":
+                cell.fill = green_fill
+
         for header in risk_headers:
             cell = worksheet.cell(
                 row=row_index,

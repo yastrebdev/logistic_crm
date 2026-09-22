@@ -15,7 +15,7 @@ from sqlalchemy.orm import (
 from app.enums.mentor_payment import (
     PaymentStatus,
 )
-from app.enums.adaptation import RiskZone
+from app.enums.adaptation import AdaptationRiskZone
 from app.enums.organization import (
     PositionCategory,
 )
@@ -179,12 +179,8 @@ def get_onboarding_analytics(
             .adaptation_process
             .has(
                 AdaptationProcess.stages.any(
-                    AdaptationStage.risk_zone.in_(
-                        [
-                            RiskZone.YELLOW,
-                            RiskZone.RED,
-                        ]
-                    )
+                    AdaptationStage.risk_zone
+                    == AdaptationRiskZone.RED
                 )
             )
         )

@@ -50,6 +50,9 @@ from app.api.internship_policies import (
 from app.api.onboarding_analytics import (
     router as onboarding_analytics_router,
 )
+from app.api.data_imports import (
+    router as data_import_router,
+)
 from app.core.config import settings
 from app import models
 
@@ -90,6 +93,7 @@ app.include_router(adaptation_policy_router)
 app.include_router(adaptation_router)
 app.include_router(internship_policy_router)
 app.include_router(onboarding_analytics_router)
+app.include_router(data_import_router)
 
 
 @app.get("/")

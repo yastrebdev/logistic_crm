@@ -2,47 +2,114 @@ from enum import Enum
 
 
 class MethodExecutionAdaptation(str, Enum):
-    PERSON = "in person"
-    PORTAL = "on portal"
-    CALL = "a phone call"
-    YANDEX = "yandex form"
+    PORTAL = "portal"
+    IN_PERSON = "in_person"
+    CALL = "call"
+    YANDEX_FORM = "yandex_form"
 
 
 class AdaptationDelayReason(str, Enum):
-    EMPLOYEE_ABSENT = "Employee absent"
-    SUPERVISOR_ABSENT = "Supervisor absent"
-    MPO_ABSENT = "MPO absent"
-    MPP_ABSENT = "MPP absent"
-    SCHEDULE_CONFLICT = "Schedule conflict"
-    TECHNICAL_ISSUES = "Technical issues"
-    WORKLOAD = "High workload"
-    ADAPTATION_RESCHEDULED = "Adaptation rescheduled"
-    OTHER = "Other"
+    ILLNESS = "illness"
+
+    SHIFT_MISMATCH = (
+        "shift_mismatch"
+    )
+
+    LOST_CONTACT = "lost_contact"
+
+    NO_RESPONSE = "no_response"
+
+    MPO_VACATION_OR_SICK_LEAVE = (
+        "mpo_vacation_or_sick_leave"
+    )
+
+    MANAGER_REFUSED = (
+        "manager_refused"
+    )
+
+    EMPLOYEE_REFUSED = (
+        "employee_refused"
+    )
+
+    NIGHT_SHIFT = "night_shift"
+
+    MPO_PORTAL_OR_SICK_LEAVE = (
+        "mpo_portal_or_sick_leave"
+    )
 
 
 class AdaptationParticipants(str, Enum):
-    MPO_ONLY = "MPO"
-    MPO_AND_MPP = "MPO and MPP"
-    MPO_AND_SUPERVISOR = "MPO and supervisor"
-    MPO_MPP_AND_SUPERVISOR = "MPO, MPP and supervisor"
+    MPO = "mpo"
+
+    MPO_AND_MPP = "mpo_and_mpp"
+
+    MPO_AND_MANAGER = (
+        "mpo_and_manager"
+    )
+
+    MPO_MPP_AND_MANAGER = (
+        "mpo_mpp_and_manager"
+    )
+
+    REMOTE = "remote"
 
 
-class RiskZone(str, Enum):
-    GREEN = "Green"
-    YELLOW = "Yellow"
-    RED = "Red"
+class AdaptationZone(str, Enum):
+    YELLOW = "yellow"
+
+
+class AdaptationRiskZone(str, Enum):
+    RED = "red"
 
 
 class AdaptationRiskReason(str, Enum):
-    LOW_PERFORMANCE = "Low performance"
-    INSUFFICIENT_SKILLS = "Insufficient skills"
-    LOW_MOTIVATION = "Low motivation"
-    ATTENDANCE_ISSUES = "Attendance issues"
-    DISCIPLINARY_ISSUES = "Disciplinary issues"
-    DIFFICULTIES_WITH_TEAM = "Difficulties working with the team"
-    DIFFICULTIES_WITH_SUPERVISOR = "Difficulties working with the supervisor"
-    FAILURE_TO_MEET_ADAPTATION_GOALS = "Failure to meet adaptation goals"
-    OTHER = "Other"
+    WORKLOAD_TOO_HIGH = (
+        "workload_too_high"
+    )
+
+    SCHEDULE_UNSUITABLE = (
+        "schedule_unsuitable"
+    )
+
+    SALARY_UNSUITABLE = (
+        "salary_unsuitable"
+    )
+
+    JOB_UNSUITABLE = (
+        "job_unsuitable"
+    )
+
+    PENALTY_SYSTEM_UNSUITABLE = (
+        "penalty_system_unsuitable"
+    )
+
+    WORKING_CONDITIONS_UNSUITABLE = (
+        "working_conditions_unsuitable"
+    )
+
+    MANAGER_RELATIONSHIP_ISSUES = (
+        "manager_relationship_issues"
+    )
+
+    PLANNING_RELOCATION = (
+        "planning_relocation"
+    )
+
+    HEALTH_REASONS = (
+        "health_reasons"
+    )
+
+    LOST_CONTACT = "lost_contact"
+
+    EQUIPMENT_PERFORMANCE = (
+        "equipment_performance"
+    )
+
+    SEASONAL_STUDENT = (
+        "seasonal_student"
+    )
+
+    HEAVY_WORK = "heavy_work"
 
 
 class AdaptationProcessStatus(str, Enum):

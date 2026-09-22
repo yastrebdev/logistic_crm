@@ -25,7 +25,7 @@ from app.enums.adaptation import (
     AdaptationProcessStatus,
     AdaptationRiskReason,
     MethodExecutionAdaptation,
-    RiskZone,
+    AdaptationRiskZone,
 )
 from app.enums.base import enum_values
 from app.enums.organization import PositionCategory
@@ -296,12 +296,12 @@ class AdaptationStage(Base):
     )
 
     risk_zone: Mapped[
-        RiskZone | None
-    ] = mapped_column(
+        AdaptationRiskZone | None
+        ] = mapped_column(
         SQLEnum(
-            RiskZone,
+            AdaptationRiskZone,
             values_callable=enum_values,
-            name="risk_zone",
+            name="adaptation_risk_zone",
         ),
         nullable=True,
     )

@@ -32,6 +32,9 @@ PERMISSIONS = [
     "notifications.read",
     "notifications.create",
     "notifications.manage",
+    "imports.read",
+    "imports.create",
+    "imports.execute",
 ]
 
 
@@ -53,6 +56,8 @@ ROLES = {
         "onboarding.create",
         "onboarding.update",
         "onboarding.delete",
+        "imports.read",
+        "imports.create",
     ],
     "employee": [
         "organization.read",
@@ -64,6 +69,8 @@ ROLES = {
         "onboarding.read",
         "onboarding.create",
         "onboarding.update",
+        "imports.read",
+        "imports.create",
     ],
 }
 

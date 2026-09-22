@@ -14,7 +14,8 @@ from app.enums.adaptation import (
     AdaptationProcessStatus,
     AdaptationRiskReason,
     MethodExecutionAdaptation,
-    RiskZone,
+    AdaptationRiskZone,
+    AdaptationZone,
 )
 from app.enums.organization import PositionCategory
 
@@ -36,7 +37,7 @@ class AdaptationPolicyBase(BaseModel):
     stage_3_duration_days: int = Field(gt=0)
 
     total_deadline_days: int = Field(
-        default=90,
+        default=91,
         gt=0,
     )
 
@@ -146,7 +147,7 @@ class AdaptationStageUpdate(BaseModel):
     method: MethodExecutionAdaptation | None = None
     participants: AdaptationParticipants | None = None
     delay_reason: AdaptationDelayReason | None = None
-    risk_zone: RiskZone | None = None
+    risk_zone: AdaptationRiskZone | None = None
     risk_reason: AdaptationRiskReason | None = None
     comment: str | None = Field(
         default=None,
@@ -166,7 +167,7 @@ class AdaptationStageResponse(BaseModel):
     method: MethodExecutionAdaptation | None
     participants: AdaptationParticipants | None
     delay_reason: AdaptationDelayReason | None
-    risk_zone: RiskZone | None
+    risk_zone: AdaptationRiskZone | None
     risk_reason: AdaptationRiskReason | None
     comment: str | None
 
@@ -206,6 +207,14 @@ class AdaptationStageResponse(BaseModel):
             return "due"
 
         return "overdue"
+
+    @computed_field
+    @property
+    def zone(self) -> AdaptationZone | None:
+        if self.actual_date is None:
+            return None
+
+        return AdaptationZone.YELLOW
 
 
 class AdaptationProcessUpdate(BaseModel):

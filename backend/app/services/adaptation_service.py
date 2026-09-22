@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session, selectinload
 
 from app.enums.adaptation import (
     AdaptationProcessStatus,
-    RiskZone,
+    AdaptationRiskZone,
 )
 from app.exceptions.base import (
     BusinessRuleError,
@@ -233,12 +233,6 @@ def validate_adaptation_stage(
             "for a completed stage"
         )
 
-    if risk_zone is None:
-        raise BusinessRuleError(
-            "Risk zone is required "
-            "for a completed stage"
-        )
-
     is_late = actual_date > stage.planned_end_date
 
     if is_late and delay_reason is None:
@@ -253,21 +247,13 @@ def validate_adaptation_stage(
             "for an overdue adaptation stage"
         )
 
-    has_risk = risk_zone in {
-        RiskZone.YELLOW,
-        RiskZone.RED,
-    }
-
-    if has_risk and risk_reason is None:
+    if (
+        risk_reason is not None
+        and risk_zone is None
+    ):
         raise BusinessRuleError(
-            "Risk reason is required for yellow "
-            "or red risk zone"
-        )
-
-    if not has_risk and risk_reason is not None:
-        raise BusinessRuleError(
-            "Risk reason can only be specified "
-            "for yellow or red risk zone"
+            "Risk zone is required when "
+            "a risk reason is specified"
         )
 
 
@@ -281,7 +267,10 @@ def calculate_next_stage_dates(
             "Previous adaptation stage is not completed"
         )
 
-    is_red = previous_stage.risk_zone == RiskZone.RED
+    is_red = (
+            previous_stage.risk_zone
+            == AdaptationRiskZone.RED
+    )
 
     if previous_stage.stage_number == 1:
         offset_days = (

@@ -19,6 +19,7 @@ from app.enums.introductory_training import (
 from app.enums.mentor_payment import (
     NonPaymentReason,
     PaymentStatus,
+    PaymentRegistrationMethod,
 )
 from app.enums.organization import (
     PositionCategory,
@@ -155,7 +156,9 @@ class OnboardingAnalyticsRow(BaseModel):
         NonPaymentReason | None
     )
 
-    payment_registration_method: str | None
+    payment_registration_method: (
+        PaymentRegistrationMethod | None
+    )
 
     # Адаптация
     adaptation_process_id: int | None

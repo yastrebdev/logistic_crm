@@ -3,6 +3,9 @@ from enum import Enum
 
 class PositionCategory(str, Enum):
     LINE_STAFF = "line_staff"
-    SPECIALIST = "specialist"
+
+    LINE_MANAGER = "line_manager"
+
     MANAGER = "manager"
-    HEAD = "head"
+
+    SPECIALIST = "specialist"
