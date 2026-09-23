@@ -149,10 +149,9 @@ def parse_onboarding_excel(
                     row_number=row_number,
                     values=values,
                     overrides={
-                        key: worksheet.cell(
-                            row=row_number,
-                            column=column_number,
-                        ).value
+                        key: values[
+                            column_number - 1
+                            ]
                         for key, column_number
                         in adaptation_columns.items()
                     },
@@ -212,16 +211,14 @@ def _parse_row(
             strict=True,
         )
     )
+
     if overrides:
         source_data.update(overrides)
 
     raw_data = {
         key: _json_value(value)
-        for key, value in zip(
-            ONBOARDING_COLUMN_KEYS,
-            values,
-            strict=True,
-        )
+        for key, value
+        in source_data.items()
     }
 
     warnings: list[str] = []
@@ -233,11 +230,8 @@ def _parse_row(
             value=value,
             warnings=warnings,
         )
-        for key, value in zip(
-            ONBOARDING_COLUMN_KEYS,
-            values,
-            strict=True,
-        )
+        for key, value
+        in source_data.items()
     }
 
     employee_name = normalized_data[
@@ -567,34 +561,43 @@ def _find_adaptation_columns(
         "зона 1": "stage_1_zone",
         "риск зоны 1": "stage_1_risk_zone",
         "причина риска 1": "stage_1_risk_reason",
+
         "зона 2": "stage_2_zone",
         "риск зоны 2": "stage_2_risk_zone",
         "причина риска 2": "stage_2_risk_reason",
+
         "зона 3": "stage_3_zone",
         "риск зоны 3": "stage_3_risk_zone",
         "причина риска 3": "stage_3_risk_reason",
     }
-    result: dict[str, int] = {}
-    for column_number in range(
-        1,
-        worksheet.max_column + 1,
-    ):
-        header = _normalize_text(
-            worksheet.cell(
-                row=header_row_number,
-                column=column_number,
-            ).value
+
+    headers = next(
+        worksheet.iter_rows(
+            min_row=header_row_number,
+            max_row=header_row_number,
+            values_only=True,
         )
+    )
+
+    result: dict[str, int] = {}
+
+    for column_number, value in enumerate(
+        headers,
+        start=1,
+    ):
         header_key = (
-            header
+            _normalize_text(value)
             .replace("_", "")
             .casefold()
         )
+
         field_name = expected_headers.get(
             header_key
         )
+
         if field_name is not None:
             result[field_name] = (
                 column_number
             )
+
     return result
