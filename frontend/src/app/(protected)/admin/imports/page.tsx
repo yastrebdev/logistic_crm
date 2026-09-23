@@ -35,6 +35,7 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import {
   createOnboardingImportPreview,
   executeOnboardingImport,
+  getImportJob,
   getImportJobRows,
   type ImportJobRow,
   type ImportRowStatus,
@@ -141,6 +142,20 @@ export default function DataImportsPage() {
     },
   });
 
+  const importJobQuery = useQuery({
+    queryKey: [
+      "import-job",
+      importJobId,
+    ],
+
+    queryFn: () =>
+      getImportJob(importJobId!),
+
+    enabled:
+      canRead &&
+      importJobId !== undefined,
+  })
+
   const rowsQuery = useQuery({
     queryKey: [
       "import-job-rows",
@@ -174,10 +189,15 @@ export default function DataImportsPage() {
         setRowStatus(undefined);
         setPage(1);
 
-        await rowsQuery.refetch();
+        await Promise.all([
+          importJobQuery.refetch(),
+          rowsQuery.refetch(),
+        ]);
       },
 
-      onError: (error) => {
+      onError: async (error) => {
+        await importJobQuery.refetch();
+
         messageApi.error(
           error instanceof Error
             ? error.message
@@ -187,6 +207,7 @@ export default function DataImportsPage() {
     });
 
     const importJob =
+      importJobQuery.data ??
       executeMutation.data ??
       previewMutation.data;
 

@@ -63,6 +63,7 @@ export type UserListResponse = {
 
 export type CreateUserRequest = {
   email: string;
+  full_name: string;
   password: string;
   role_id: number;
   manager_id?: number | null;

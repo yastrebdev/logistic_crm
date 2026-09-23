@@ -40,6 +40,7 @@ import { hasPermission } from "@/lib/permissions";
 
 type CreateUserForm = {
   email: string;
+  full_name: string;
   password: string;
   role_id: number;
   manager_id: number | null;
@@ -270,6 +271,7 @@ export default function UsersPage() {
           onFinish={(values) => {
                 const request: CreateUserRequest = {
                   email: values.email,
+                  full_name: values.full_name,
                   password: values.password,
                   role_id: values.role_id,
                   manager_id:
@@ -297,6 +299,19 @@ export default function UsersPage() {
             ]}
           >
             <Input placeholder="user@company.ru" />
+          </Form.Item>
+
+          <Form.Item
+            label="ФИО"
+            name="full_name"
+            rules={[
+              {
+                required: true,
+                message: "Введите ФИО",
+              },
+            ]}
+          >
+            <Input placeholder="Иванов Иван Иванович" />
           </Form.Item>
 
           <Form.Item

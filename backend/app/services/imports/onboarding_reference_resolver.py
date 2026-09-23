@@ -71,17 +71,12 @@ class OnboardingReferenceResolver:
         ] = defaultdict(list)
 
         for center in centers:
-            aliases = {
-                _center_key(center.name),
-                _center_key(center.city),
-                _center_key(center.code),
-            }
+            center_key = _center_key(center.name)
 
-            for alias in aliases:
-                if alias:
-                    self.centers_by_key[
-                        alias
-                    ].append(center)
+            if center_key:
+                self.centers_by_key[
+                    center_key
+                ].append(center)
 
         self.units_by_center_and_name: dict[
             tuple[int, str],

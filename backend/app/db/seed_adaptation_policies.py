@@ -62,7 +62,7 @@ POLICIES = [
     {
         "effective_from": date(1900, 1, 1),
         "effective_to": None,
-        "position_category": PositionCategory.MANAGER,
+        "position_category": PositionCategory.LINE_MANAGER,
         "stage_1_start_offset_days": 14,
         "stage_1_duration_days": 14,
         "stage_2_red_offset_days": 14,
@@ -75,20 +75,20 @@ POLICIES = [
     },
 
     # Руководитель
-    {
-        "effective_from": date(1900, 1, 1),
-        "effective_to": None,
-        "position_category": PositionCategory.HEAD,
-        "stage_1_start_offset_days": 14,
-        "stage_1_duration_days": 14,
-        "stage_2_red_offset_days": 14,
-        "stage_2_normal_offset_days": 21,
-        "stage_2_duration_days": 14,
-        "stage_3_red_offset_days": 14,
-        "stage_3_normal_offset_days": 14,
-        "stage_3_duration_days": 14,
-        "total_deadline_days": 90,
-    },
+    # {
+    #     "effective_from": date(1900, 1, 1),
+    #     "effective_to": None,
+    #     "position_category": PositionCategory.MANAGER_HEAD,
+    #     "stage_1_start_offset_days": 14,
+    #     "stage_1_duration_days": 14,
+    #     "stage_2_red_offset_days": 14,
+    #     "stage_2_normal_offset_days": 21,
+    #     "stage_2_duration_days": 14,
+    #     "stage_3_red_offset_days": 14,
+    #     "stage_3_normal_offset_days": 14,
+    #     "stage_3_duration_days": 14,
+    #     "total_deadline_days": 90,
+    # },
 ]
 
 

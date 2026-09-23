@@ -124,6 +124,13 @@ export function UserEditModal({
         />
       </Form.Item>
 
+      <Form.Item label="ФИО">
+        <Input
+          value={user.full_name ?? ""}
+          disabled
+        />
+      </Form.Item>
+
       <Form.Item
         label="Роль"
         name="role_id"
