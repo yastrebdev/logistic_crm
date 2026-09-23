@@ -121,13 +121,6 @@ def parse_onboarding_excel(
             worksheet
         )
 
-        adaptation_columns = (
-            _find_adaptation_columns(
-                worksheet=worksheet,
-                header_row_number=header_row_number,
-            )
-        )
-
         parsed_rows: list[
             ParsedOnboardingRow
         ] = []
@@ -148,13 +141,6 @@ def parse_onboarding_excel(
                 _parse_row(
                     row_number=row_number,
                     values=values,
-                    overrides={
-                        key: values[
-                            column_number - 1
-                            ]
-                        for key, column_number
-                        in adaptation_columns.items()
-                    },
                 )
             )
 
@@ -202,23 +188,14 @@ def _find_header_row(worksheet) -> int:
 def _parse_row(
     row_number: int,
     values: tuple[Any, ...],
-    overrides: dict[str, Any] | None = None,
 ) -> ParsedOnboardingRow:
-    source_data = dict(
-        zip(
+    raw_data = {
+        key: _json_value(value)
+        for key, value in zip(
             ONBOARDING_COLUMN_KEYS,
             values,
             strict=True,
         )
-    )
-
-    if overrides:
-        source_data.update(overrides)
-
-    raw_data = {
-        key: _json_value(value)
-        for key, value
-        in source_data.items()
     }
 
     warnings: list[str] = []
@@ -230,8 +207,11 @@ def _parse_row(
             value=value,
             warnings=warnings,
         )
-        for key, value
-        in source_data.items()
+        for key, value in zip(
+            ONBOARDING_COLUMN_KEYS,
+            values,
+            strict=True,
+        )
     }
 
     employee_name = normalized_data[
@@ -551,53 +531,3 @@ def _is_empty_row(
         )
         for value in values
     )
-
-
-def _find_adaptation_columns(
-    worksheet,
-    header_row_number: int,
-) -> dict[str, int]:
-    expected_headers = {
-        "зона 1": "stage_1_zone",
-        "риск зоны 1": "stage_1_risk_zone",
-        "причина риска 1": "stage_1_risk_reason",
-
-        "зона 2": "stage_2_zone",
-        "риск зоны 2": "stage_2_risk_zone",
-        "причина риска 2": "stage_2_risk_reason",
-
-        "зона 3": "stage_3_zone",
-        "риск зоны 3": "stage_3_risk_zone",
-        "причина риска 3": "stage_3_risk_reason",
-    }
-
-    headers = next(
-        worksheet.iter_rows(
-            min_row=header_row_number,
-            max_row=header_row_number,
-            values_only=True,
-        )
-    )
-
-    result: dict[str, int] = {}
-
-    for column_number, value in enumerate(
-        headers,
-        start=1,
-    ):
-        header_key = (
-            _normalize_text(value)
-            .replace("_", "")
-            .casefold()
-        )
-
-        field_name = expected_headers.get(
-            header_key
-        )
-
-        if field_name is not None:
-            result[field_name] = (
-                column_number
-            )
-
-    return result
