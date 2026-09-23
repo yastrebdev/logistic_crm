@@ -1229,21 +1229,40 @@ def execute_onboarding_import(
 
         db.commit()
 
+    # except IntegrityError as error:
+    #     db.rollback()
+    #
+    #     _mark_import_failed(
+    #         db=db,
+    #         import_job_id=import_job_id,
+    #         error_message=(
+    #             "Import data conflicts with existing "
+    #             "database records"
+    #         ),
+    #     )
+    #
+    #     raise ConflictError(
+    #         "Import data conflicts with existing "
+    #         "database records"
+    #     ) from error
+
     except IntegrityError as error:
         db.rollback()
+
+        error_message = str(
+            error.orig
+            if error.orig is not None
+            else error
+        )
 
         _mark_import_failed(
             db=db,
             import_job_id=import_job_id,
-            error_message=(
-                "Import data conflicts with existing "
-                "database records"
-            ),
+            error_message=error_message,
         )
 
         raise ConflictError(
-            "Import data conflicts with existing "
-            "database records"
+            error_message
         ) from error
 
     except Exception as error:
