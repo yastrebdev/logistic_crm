@@ -29,9 +29,8 @@ export type AdaptationParticipants =
   | "MPO, MPP and supervisor";
 
 export type RiskZone =
-  | "Green"
-  | "Yellow"
-  | "Red";
+  | "yellow"
+  | "red";
 
 export type AdaptationDelayReason =
   | "Employee absent"

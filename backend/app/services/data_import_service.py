@@ -1,3 +1,4 @@
+from datetime import date, datetime
 from collections.abc import Sequence
 from hashlib import sha256
 
@@ -126,9 +127,15 @@ def create_onboarding_import_preview(
                 raw_data=(
                     parsed_row.raw_data
                 ),
-                normalized_data=(
-                    normalized_data
-                ),
+                normalized_data={
+                    key: (
+                        value.isoformat()
+                        if isinstance(value, (date, datetime))
+                        else value
+                    )
+                    for key, value
+                    in normalized_data.items()
+                },
                 warnings=warnings,
                 errors=errors,
             )

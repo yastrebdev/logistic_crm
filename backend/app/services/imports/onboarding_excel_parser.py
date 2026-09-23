@@ -121,6 +121,13 @@ def parse_onboarding_excel(
             worksheet
         )
 
+        adaptation_columns = (
+            _find_adaptation_columns(
+                worksheet=worksheet,
+                header_row_number=header_row_number,
+            )
+        )
+
         parsed_rows: list[
             ParsedOnboardingRow
         ] = []
@@ -141,6 +148,14 @@ def parse_onboarding_excel(
                 _parse_row(
                     row_number=row_number,
                     values=values,
+                    overrides={
+                        key: worksheet.cell(
+                            row=row_number,
+                            column=column_number,
+                        ).value
+                        for key, column_number
+                        in adaptation_columns.items()
+                    },
                 )
             )
 
@@ -188,7 +203,18 @@ def _find_header_row(worksheet) -> int:
 def _parse_row(
     row_number: int,
     values: tuple[Any, ...],
+    overrides: dict[str, Any] | None = None,
 ) -> ParsedOnboardingRow:
+    source_data = dict(
+        zip(
+            ONBOARDING_COLUMN_KEYS,
+            values,
+            strict=True,
+        )
+    )
+    if overrides:
+        source_data.update(overrides)
+
     raw_data = {
         key: _json_value(value)
         for key, value in zip(
@@ -531,3 +557,44 @@ def _is_empty_row(
         )
         for value in values
     )
+
+
+def _find_adaptation_columns(
+    worksheet,
+    header_row_number: int,
+) -> dict[str, int]:
+    expected_headers = {
+        "зона 1": "stage_1_zone",
+        "риск зоны 1": "stage_1_risk_zone",
+        "причина риска 1": "stage_1_risk_reason",
+        "зона 2": "stage_2_zone",
+        "риск зоны 2": "stage_2_risk_zone",
+        "причина риска 2": "stage_2_risk_reason",
+        "зона 3": "stage_3_zone",
+        "риск зоны 3": "stage_3_risk_zone",
+        "причина риска 3": "stage_3_risk_reason",
+    }
+    result: dict[str, int] = {}
+    for column_number in range(
+        1,
+        worksheet.max_column + 1,
+    ):
+        header = _normalize_text(
+            worksheet.cell(
+                row=header_row_number,
+                column=column_number,
+            ).value
+        )
+        header_key = (
+            header
+            .replace("_", "")
+            .casefold()
+        )
+        field_name = expected_headers.get(
+            header_key
+        )
+        if field_name is not None:
+            result[field_name] = (
+                column_number
+            )
+    return result

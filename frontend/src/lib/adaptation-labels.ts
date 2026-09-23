@@ -95,18 +95,16 @@ export const riskZoneLabels: Record<
   RiskZone,
   string
 > = {
-  Green: "Зелёная",
-  Yellow: "Жёлтая",
-  Red: "Красная",
+  yellow: "Жёлтая",
+  red: "Красная",
 };
 
 export const riskZoneColors: Record<
   RiskZone,
   string
 > = {
-  Green: "success",
-  Yellow: "warning",
-  Red: "error",
+  yellow: "warning",
+  red: "error",
 };
 
 export const riskZoneOptions = (
