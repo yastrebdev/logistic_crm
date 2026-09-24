@@ -685,7 +685,7 @@ def map_onboarding_values(
         _map_field(
             data=data,
             source_field=(
-                f"{prefix}_zone"
+                f"{prefix}_risk_zone"
             ),
             target_field=(
                 f"{prefix}_risk_zone_value"
