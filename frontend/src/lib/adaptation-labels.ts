@@ -95,8 +95,8 @@ export const riskZoneLabels: Record<
   RiskZone,
   string
 > = {
-  yellow: "Жёлтая",
-  red: "Красная",
+  yellow: "Жёлтый",
+  red: "Красный",
 };
 
 export const riskZoneColors: Record<
